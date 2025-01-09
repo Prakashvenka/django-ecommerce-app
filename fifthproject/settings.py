@@ -1,6 +1,37 @@
- 
+import os 
 from pathlib import Path
- 
+from decouple import Config, Csv
+import dj_database_url
+import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
+
+# Now you can access the environment variables using os.getenv()
+SECRET_KEY = os.getenv('SECRET_KEY')
+DEBUG = os.getenv('DEBUG') == 'True'  # Convert to a boolean
+
+
+
+config = Config()
+SECRET_KEY = config('SECRET_KEY')
+DEBUG = config('DEBUG', default=False, cast=bool)
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
+
+# Email settings
+EMAIL_HOST = 'smtp.mailtrap.io'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'prakashvenkatesan877@gmail.com'
+EMAIL_HOST_PASSWORD = 'Pkvk@098'
+
+# Database settings
+DATABASES = {
+    'default': dj_database_url.config(default=Config('DATABASE_URL'))
+}
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
  
@@ -12,7 +43,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-72ct@i#m$q9xs(hdhi^^xa5asb!l$81s0+u180-!k^v#+ug=hk'
  
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
  
 ALLOWED_HOSTS = []
  
